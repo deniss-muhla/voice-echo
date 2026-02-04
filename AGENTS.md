@@ -99,3 +99,50 @@ Phase 4 — Optional polish
 - Replace KV refresh storage with a Durable Object if strict refresh rotation/revocation is needed.
 - Introduce archive indices if `index.json` grows large.
 - Consider range streaming improvements later (still single object).
+
+## Working on the next issue (workflow)
+
+Use `.vscode/specification/LEAN.md` as the “serial roadmap” and the GitHub issues created from it.
+
+1. Pick the next issue
+
+- Prefer the lowest-numbered open issue in order (`P0-*` → `P1-*` → `P2-*` → `P3-*` → `P4-*`).
+- Match by title prefix pattern: `P<phase>-<n>:`.
+- Use the linked spec files in the issue body as the implementation checklist.
+
+2. Create a feature branch
+
+- Branch naming: `feat/<short-slug>`
+- Example:
+  - Issue: `P1-2: Index API pack...`
+  - Branch: `feat/p1-2-index-api`
+
+Suggested commands:
+
+- `git checkout main`
+- `git pull`
+- `git checkout -b feat/<short-slug>`
+
+3. Implement with tight scope
+
+- Implement only what the issue requires.
+- Follow the core constraints:
+  - Worker signs URLs; never proxies audio bytes.
+  - Single per-user `index.json` with ETag/`304`.
+  - Soft delete by default; purge is explicit.
+
+4. Test before finishing
+
+- Worker: run locally and hit endpoints (and presigned flows when applicable).
+- Web: run the dev server and manually click through the UI.
+- Add unit tests for pure logic (schema validation, mime selection, caching behavior) where practical.
+
+5. Request confirmation before publishing
+
+- Get explicit confirmation before running `git commit` / pushing changes.
+- Get explicit confirmation before opening a PR.
+
+6. Open PR
+
+- Push branch and open a PR referencing the issue number.
+- Keep PR small; include test notes.
