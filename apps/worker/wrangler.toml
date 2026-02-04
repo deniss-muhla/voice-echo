@@ -1,0 +1,14 @@
+name = "voice-echo-worker"
+main = "src/index.ts"
+compatibility_date = "2025-07-18"
+
+[vars]
+# Placeholder vars; fill in later as needed.
+
+[[r2_buckets]]
+binding = "R2"
+bucket_name = "voice-echo"
+
+[[kv_namespaces]]
+binding = "KV"
+id = "00000000000000000000000000000000"
