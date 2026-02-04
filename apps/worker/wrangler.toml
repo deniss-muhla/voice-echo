@@ -3,7 +3,15 @@ main = "src/index.ts"
 compatibility_date = "2025-07-18"
 
 [vars]
-# Placeholder vars; fill in later as needed.
+# Local dev defaults.
+# In production, set secrets via: `wrangler secret put SESSION_HMAC_SECRET`.
+APP_ORIGINS = "http://localhost:5173"
+
+# Comma-separated Google OAuth client ids (audience).
+GOOGLE_CLIENT_IDS = "CHANGE_ME"
+
+# Used to sign access cookies. Replace for any shared environment.
+SESSION_HMAC_SECRET = "dev-secret-change-me"
 
 [[r2_buckets]]
 binding = "R2"
