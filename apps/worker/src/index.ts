@@ -3,6 +3,12 @@ import { sessionHandlers } from './auth/session';
 import { notFound, json } from './lib/http';
 import { enforceOrigin, enforceRateLimit } from './security/middleware';
 import { getClientIp } from './security/clientKey';
+import {
+  handleCommitRecord,
+  handleGetIndex,
+  handlePurge,
+  handleSoftDelete,
+} from './index/indexHandlers';
 
 const LOGIN_RATE_LIMIT = {
   capacity: 10,
@@ -41,6 +47,26 @@ export default {
 
         if (url.pathname === '/api/me') {
           if (request.method === 'GET') return sessionHandlers.me(request, env);
+          return json(405, { error: 'method_not_allowed' });
+        }
+
+        if (url.pathname === '/api/index') {
+          if (request.method === 'GET') return handleGetIndex(request, env);
+          return json(405, { error: 'method_not_allowed' });
+        }
+
+        if (url.pathname === '/api/records/commit') {
+          if (request.method === 'POST') return handleCommitRecord(request, env);
+          return json(405, { error: 'method_not_allowed' });
+        }
+
+        if (url.pathname === '/api/records/soft-delete') {
+          if (request.method === 'POST') return handleSoftDelete(request, env);
+          return json(405, { error: 'method_not_allowed' });
+        }
+
+        if (url.pathname === '/api/records/purge') {
+          if (request.method === 'POST') return handlePurge(request, env);
           return json(405, { error: 'method_not_allowed' });
         }
       } catch (err) {
